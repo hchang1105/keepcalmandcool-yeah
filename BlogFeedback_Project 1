@@ -1,0 +1,41 @@
+Project1
+
+#Train data set
+blog<-read.csv("blogData_train.csv",header=TRUE,sep=",")
+#Test data set
+blog.test<-read.csv("blog2.1_2.9_3.2_3.20_test.csv",header=TRUE,sep=",")
+
+#Experiment 1 (51-60,target concept 281)
+  #Extract 51-60 attributes from test data set
+  basic.test<-blog.test[,(c(51:60,281))]
+  #5000 sample from the train data set
+  basic_train<-blog[sample(nrow(blog),5000),(c(51:60,281))]
+  #Linear Regression 
+  Exp1_train<-lm(X281~.,data=basic_train)
+  #Mean Square Error for Exp_train
+  Exp1_train_MSE<-mean(Exp1_train$residuals^2)
+  Exp1_train_MSE
+  
+  #Fit the test data set into linear Regression
+  pred_Exp1<-predict(Exp1_train,newdata=basic.test)
+  #Mean Square Error for Exp_test
+  Exp1_test_mse<-mean((basic_train$X281-pred_Exp1)^2)
+  Exp1_test_mse
+  
+  
+#Experiment 2 (63-262,target concept 281)
+  #Extract 63-262 attributes from test data set
+  textual.test<-blog.test[,(c(63:262,281))]
+  #5000 sample from the train data set
+  textual_train<-blog[sample(nrow(blog),5000),(c(63:262,281))]
+  #Linear Regression 
+  Exp2_train<-lm(X281~.,data=textual_train)
+  #Mean Square Error for Exp_train
+  Exp2_train_MSE<-mean(Exp2_train$residuals^2)
+  Exp2_train_MSE
+
+  #Fit the test data set into linear Regression
+  pred_Exp2<-predict(Exp2_train,newdata=textual.test)
+  #Mean Square Error for Exp_test
+  Exp2_test_mse<-mean((textual_train$X281-pred_Exp2)^2)
+  Exp2_test_mse
